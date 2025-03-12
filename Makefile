@@ -3,6 +3,11 @@ cleancode:
 	poetry run black .
 	poetry run mypy .
 
+.PHONY: run
+run:
+	poetry run python manage.py runserver
+
+
 .PHONY: db.migrations
 db.migrations:
 	poetry run python manage.py makemigrations

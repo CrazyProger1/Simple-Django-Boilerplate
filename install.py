@@ -12,6 +12,8 @@ APPS_DIR = SRC_DIR / "apps"
 ACCOUNTS_APP_DIR = APPS_DIR / "accounts"
 DOCS_APP_DIR = APPS_DIR / "docs"
 
+DOTENV_SAMPLE_FILE = ".env.sample"
+
 SETTINGS_FILES = {
     "rest": SETTINGS_DIR / "rest.py",
     "docs": SETTINGS_DIR / "docs.py",
@@ -135,10 +137,10 @@ def run_command(command: list, cwd: pathlib.Path = None) -> None:
 
 def check_poetry_installed() -> bool:
     return (
-        subprocess.run(
-            ["poetry", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        ).returncode
-        == 0
+            subprocess.run(
+                ["poetry", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            ).returncode
+            == 0
     )
 
 
@@ -151,8 +153,12 @@ def install_poetry() -> None:
         print("[+] Poetry is already installed")
 
 
-def copy_files(destination: pathlib.Path) -> None:
-    shutil.copytree(".", destination, dirs_exist_ok=True)
+def copy_file(src: pathlib.Path, dest: pathlib.Path) -> None:
+    shutil.copy(src, dest)
+
+
+def copy_boilerplate(dest: pathlib.Path) -> None:
+    shutil.copytree(".", dest, dirs_exist_ok=True)
 
 
 def create_file(file: pathlib.Path, content: str) -> None:
@@ -185,10 +191,12 @@ def install(arguments: argparse.Namespace) -> None:
     include_rest = include_all or arguments.rest
     include_unfold = include_all or arguments.unfold
 
-    copy_files(destination)
+    copy_boilerplate(destination)
     install_poetry()
     run_command([sys.executable, "-m", "venv", ".venv"], cwd=destination)
     run_command(["poetry", "install"], cwd=destination)
+
+    copy_file(destination / DOTENV_SAMPLE_FILE, destination / ".env")
 
     print("[+] Cleaning up...")
     unused_files = []
@@ -225,7 +233,10 @@ def install(arguments: argparse.Namespace) -> None:
     delete_files(unused_files)
     run_command(["poetry", "run", "black", "."], cwd=destination)
 
-    print("[+] Installation complete")
+    print("[+] Installation complete!")
+
+    print("[+] Running...")
+    run_command(["poetry", "run", "python", "manage.py", "runserver"], cwd=destination)
 
 
 if __name__ == "__main__":
