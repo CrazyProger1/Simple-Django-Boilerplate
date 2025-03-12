@@ -11,7 +11,7 @@ git clone https://github.com/CrazyProger1/Simple-Django-Boilerplate
 2. Run the installation script
 
 ```shell
-python3 install.py
+python3 install.py --all
 ```
 
 ## Components
