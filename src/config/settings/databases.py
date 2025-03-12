@@ -1,5 +1,7 @@
 from decouple import config
 
+from src.config.settings.base import DEBUG
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -10,3 +12,11 @@ DATABASES = {
         "PORT": config("DB_PORT", cast=int),
     }
 }
+
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": config("DB_NAME"),
+        }
+    }
