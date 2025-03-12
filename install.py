@@ -202,6 +202,7 @@ def install(arguments: argparse.Namespace) -> None:
     unused_files = [
         destination / ".git",
         destination / "install.py",
+        destination / "LICENSE",
     ]
     urls_file_content = URLS_FILE_CONTENT
     base_settings_file_content = BASE_SETTINGS_FILE_CONTENT
