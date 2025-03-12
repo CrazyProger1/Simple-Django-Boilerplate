@@ -3,7 +3,10 @@ from decouple import config, Csv
 from src.config.settings.base import INSTALLED_APPS, MIDDLEWARE
 
 INSTALLED_APPS += ["corsheaders"]
-MIDDLEWARE.insert(2, "corsheaders.middleware.CorsMiddleware")
+MIDDLEWARE.insert(
+    MIDDLEWARE.index("django.middleware.common.CommonMiddleware") - 1,
+    "corsheaders.middleware.CorsMiddleware",
+)
 
 CORS_ALLOWED_ORIGINS = config(
     "CORS_ALLOWED_ORIGINS",

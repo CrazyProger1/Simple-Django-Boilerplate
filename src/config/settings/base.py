@@ -31,6 +31,7 @@ ALLOWED_HOSTS = config(
 )
 
 INSTALLED_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -73,21 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "src.config.web.wsgi.application"
 ASGI_APPLICATION = "src.config.web.asgi.application"
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
-]
-
-STATIC_URL = "static/"
+STATIC_URL = config("STATIC_URL", default="static/")
+STATIC_ROOT = config("STATIC_ROOT", default="static/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

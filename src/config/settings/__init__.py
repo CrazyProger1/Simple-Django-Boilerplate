@@ -12,6 +12,7 @@ include(
     "databases.py",
     "i18n.py",
     "logging.py",
+    "security.py",
     optional("rest.py"),
     optional("docs.py"),
     optional("cors.py"),
