@@ -199,7 +199,10 @@ def install(arguments: argparse.Namespace) -> None:
     copy_file(destination / DOTENV_SAMPLE_FILE, destination / ".env")
 
     print("[+] Cleaning up...")
-    unused_files = [destination / ".git"]
+    unused_files = [
+        destination / ".git",
+        destination / "install.py",
+    ]
     urls_file_content = URLS_FILE_CONTENT
     base_settings_file_content = BASE_SETTINGS_FILE_CONTENT
 
